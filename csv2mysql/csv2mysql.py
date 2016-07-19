@@ -346,6 +346,3 @@ def main(csvfile, outfile, tablename, sniffsize, no_droptable,
                               )
     transformer.write_to_outfile()
 
-
-if __name__ == "__main__":
-    main()
