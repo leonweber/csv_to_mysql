@@ -43,6 +43,10 @@ class Column:
         self.name = normalized_name
 
     def infer_type(self):
+        if self.is_none():
+            self.type = "longtext"
+            return
+
         if self.is_int():
             self.type = "int"
             return
@@ -63,6 +67,9 @@ class Column:
             self.type = "varchar"
         else:
             self.type = "longtext"
+
+    def is_none(self):
+        return all([v == '' for v in self.values])
 
     def is_int(self):
         null_candidate = None
@@ -275,7 +282,7 @@ class Transformer:
                     self.get_date_set_expression(column)
                 )
             else:
-                set_statement += "{} = NULLIF(@{}, {})".format(
+                set_statement += "{} = NULLIF(@{}, '{}')".format(
                     column.name,
                     column.name,
                     column.null_symbol
