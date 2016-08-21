@@ -115,10 +115,11 @@ class Column:
                     if self.fits_date_format(value,
                                              format_candidate):
                         date_format = format_candidate
+                        null_candidate = None
                     elif null_candidate is None:
                         null_candidate = value
-                    elif null_candidate != value:
-                        return False
+                if date_format is None and null_candidate != value:
+                    return False
             else:
                 if not self.fits_date_format(value, date_format):
                     if null_candidate is None:
@@ -352,4 +353,4 @@ def main(csvfile, outfile, tablename, sniffsize, no_droptable,
                               generate_load_data=not no_loaddata
                               )
     transformer.write_to_outfile()
-
+    
