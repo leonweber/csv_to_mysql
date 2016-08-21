@@ -269,7 +269,7 @@ class Transformer:
         return sql_str
 
     def get_load_set_statements(self):
-        set_statement = ""
+        set_statement = "SET\n"
         for column_num, column in enumerate(self.columns):
             if column.type == "bool":
                 set_statement += "{} = {}".format(
@@ -313,7 +313,7 @@ class Transformer:
     @staticmethod
     def get_bool_set_expression(column):
         true_symbol, false_symbol = column.bool_pair
-        sql_str = """IF({} IN ('{}', '{}')
+        sql_str = """IF({} IN ('{}', '{}'),
             IF(@{}='{}', TRUE, FALSE),
             NULL)""".format(column.name, true_symbol, false_symbol,
                             column.name, true_symbol)
