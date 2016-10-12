@@ -85,7 +85,7 @@ class Column:
                     null_candidate = value
                 elif null_candidate != value:
                     return False
-        if max_value > 1:
+        if max_value is not None and max_value > 1:
             self.null_symbol = null_candidate
             return True
         else:
@@ -193,7 +193,7 @@ class Transformer:
 
     def build_columns(self):
         with open(self.in_file) as f:
-            self.dialect = csv.Sniffer().sniff(f.read(1024))
+            self.dialect = csv.Sniffer().sniff(f.read(10000))
             f.seek(0)
             reader = csv.reader(f, self.dialect)
 
